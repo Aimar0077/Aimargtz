@@ -36,6 +36,12 @@
   --ff-body:'Inter', sans-serif;
 }
 
+/* Intro overlay animation */
+.intro-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9999;background:linear-gradient(135deg,rgba(59,111,224,0.96),rgba(21,38,107,0.96));pointer-events:none;}
+.intro-overlay .intro-logo{font-family:var(--ff-display);font-weight:900;color:#fff;font-size:48px;letter-spacing:0.06em;opacity:0;transform:translateY(6px) scale(0.99);animation:introLogo 1200ms ease forwards;}
+@keyframes introLogo{0%{opacity:0;transform:translateY(8px) scale(0.98);}40%{opacity:1;transform:translateY(0) scale(1);}85%{opacity:1;transform:translateY(-6px) scale(1);}100%{opacity:0;transform:translateY(-18px) scale(0.98);}}
+.intro-overlay.hidden{opacity:0;visibility:hidden;transition:opacity .5s ease;}
+
 *{margin:0;padding:0;box-sizing:border-box;}
 
 html{scroll-behavior:smooth;}
@@ -560,6 +566,7 @@ footer strong{color:var(--ink-1);}
 </style>
 </head>
 <body>
+  <div id="introOverlay" class="intro-overlay"><div class="intro-logo">AIMARGTZ</div></div>
 
 <!-- ============ NAV ============ -->
 <nav class="nav">
@@ -1255,6 +1262,50 @@ const I18N = {
     steamSub: 'Añádeme en Steam o consulta mi actividad reciente.',
     footerText: '<strong>AIMARGTZ</strong> // Perfil de jugador CS2',
     langSwitch: 'EN'
+  },
+  it: {
+    navHome: 'Home',
+    navProfile: 'Profilo',
+    navStats: 'Statistiche',
+    navSetup: 'Impostazioni',
+    navSteam: 'Steam',
+    heroCta: 'Vedi su Steam',
+    heroStatusOnline: 'ONLINE',
+    heroStatusOffline: 'OFFLINE',
+    heroEyebrow: 'Portfolio di programmazione',
+    heroBio: 'Programmatore ed appassionato di CS2 che ha creato questa pagina per divertimento. Mi piace realizzare progetti web e tracciare dati di gioco come hobby.',
+    faceitLabel: 'FACEIT',
+    faceitValue: 'FACEIT 4 • 1000',
+    statsEyebrow: 'Prestazioni',
+    statsTitle: 'Statistiche del <span>giocatore</span>',
+    statsSub: 'Dati aggregati delle partite competitive da FACEIT e Premier. Statistiche complete verificate su <a href="https://csrep.gg/player/76561199279300867" target="_blank" rel="noopener noreferrer" style="color:var(--accent-light);font-weight:600;">csrep.gg ↗</a>',
+    setupEyebrow: 'Attrezzatura',
+    setupTitle: 'Configurazione del <span>giocatore</span>',
+    setupSub: 'Impostazioni, periferiche e hardware utilizzati durante il gioco a CS2.',
+    matchesEyebrow: 'Cronologia partite',
+    matchesTitle: 'Ultime <span>partite</span>',
+    matchesSub: 'Le ultime partite competitive di CS2 in stile Faceit, aggiornate automaticamente quando possibile.',
+    mapsTitle: 'Mappe preferite',
+    setupPanelTitle: 'Sensibilità e schermo',
+    labelDpi: 'DPI',
+    labelSensitivity: 'Sensibilità',
+    labelEdpi: 'eDPI',
+    labelResolution: 'Risoluzione',
+    labelRefresh: 'Frequenza del monitor',
+    labelZoom: 'Sensibilità dello zoom',
+    labelRawInput: 'Raw Input',
+    valueRawInput: 'Attivato',
+    peripheralsTitle: 'Periferiche e PC',
+    labelMouse: 'Mouse',
+    labelKeyboard: 'Tastiera',
+    labelHeadset: 'Cuffie',
+    labelMonitor: 'Monitor',
+    labelPC: 'PC',
+    steamEyebrow: 'Seguimi',
+    steamTitle: 'Il mio profilo <span>Steam</span>',
+    steamSub: 'Aggiungimi su Steam o controlla la mia attività recente.',
+    footerText: '<strong>AIMARGTZ</strong> // Profilo giocatore CS2',
+    langSwitch: 'IT'
   }
 };
 
@@ -1303,12 +1354,26 @@ function setLanguage(lang) {
 
 const langSwitch = document.getElementById('langSwitch');
 let currentLang = 'en';
+const LANGS = ['en','es','it'];
 langSwitch.addEventListener('click', () => {
-  currentLang = currentLang === 'en' ? 'es' : 'en';
+  const idx = LANGS.indexOf(currentLang);
+  currentLang = LANGS[(idx + 1) % LANGS.length];
   setLanguage(currentLang);
 });
 
 setLanguage('en');
+
+// Page load animations: reveal content and hide intro overlay
+window.addEventListener('load', () => {
+  document.body.classList.add('page-loaded');
+  const overlay = document.getElementById('introOverlay');
+  if (overlay) {
+    setTimeout(() => {
+      overlay.classList.add('hidden');
+      setTimeout(() => overlay.remove(), 600);
+    }, 1100);
+  }
+});
 
 </script>
 </body>
