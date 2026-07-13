@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1256,6 +1257,51 @@ const I18N = {
     footerText: '<strong>AIMARGTZ</strong> // Perfil de jugador CS2',
     langSwitch: 'EN'
   }
+  ,
+  it: {
+    navHome: 'Home',
+    navProfile: 'Profilo',
+    navStats: 'Statistiche',
+    navSetup: 'Impostazioni',
+    navSteam: 'Steam',
+    heroCta: 'Vedi su Steam',
+    heroStatusOnline: 'ONLINE',
+    heroStatusOffline: 'OFFLINE',
+    heroEyebrow: 'Portfolio di programmazione',
+    heroBio: 'Programmatore ed appassionato di CS2 che ha creato questa pagina perché si annoiava. Mi piace realizzare progetti web e tracciare dati di gioco come hobby.',
+    faceitLabel: 'FACEIT',
+    faceitValue: 'FACEIT 4 • 1000',
+    statsEyebrow: 'Prestazioni',
+    statsTitle: 'Statistiche del <span>giocatore</span>',
+    statsSub: 'Dati aggregati delle partite competitive da FACEIT e Premier. Statistiche complete verificate su <a href="https://csrep.gg/player/76561199279300867" target="_blank" rel="noopener noreferrer" style="color:var(--accent-light);font-weight:600;">csrep.gg ↗</a>',
+    setupEyebrow: 'Attrezzatura',
+    setupTitle: 'Configurazione del <span>giocatore</span>',
+    setupSub: 'Impostazioni, periferiche e hardware utilizzati durante il gioco a CS2.',
+    matchesEyebrow: 'Cronologia partite',
+    matchesTitle: 'Ultime <span>partite</span>',
+    matchesSub: 'Le ultime partite competitive di CS2 in stile Faceit, aggiornate automaticamente quando possibile.',
+    mapsTitle: 'Mappe preferite',
+    setupPanelTitle: 'Sensibilità e schermo',
+    labelDpi: 'DPI',
+    labelSensitivity: 'Sensibilità',
+    labelEdpi: 'eDPI',
+    labelResolution: 'Risoluzione',
+    labelRefresh: 'Frequenza del monitor',
+    labelZoom: 'Sensibilità dello zoom',
+    labelRawInput: 'Raw Input',
+    valueRawInput: 'Attivato',
+    peripheralsTitle: 'Periferiche e PC',
+    labelMouse: 'Mouse',
+    labelKeyboard: 'Tastiera',
+    labelHeadset: 'Cuffie',
+    labelMonitor: 'Monitor',
+    labelPC: 'PC',
+    steamEyebrow: 'Seguimi',
+    steamTitle: 'Il mio profilo <span>Steam</span>',
+    steamSub: "Aggiungimi su Steam o controlla la mia attività recente.",
+    footerText: '<strong>AIMARGTZ</strong> // Profilo giocatore CS2',
+    langSwitch: 'IT'
+  }
 };
 
 function setLanguage(lang) {
@@ -1303,8 +1349,10 @@ function setLanguage(lang) {
 
 const langSwitch = document.getElementById('langSwitch');
 let currentLang = 'en';
+const LANGS = ['en','es','it'];
 langSwitch.addEventListener('click', () => {
-  currentLang = currentLang === 'en' ? 'es' : 'en';
+  const idx = LANGS.indexOf(currentLang);
+  currentLang = LANGS[(idx + 1) % LANGS.length];
   setLanguage(currentLang);
 });
 
@@ -1312,4 +1360,17 @@ setLanguage('en');
 
 </script>
 </body>
+=======
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="refresh" content="0; URL='Aimar.html'">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Redirecting...</title>
+  </head>
+  <body>
+    <p>Redirecting to the site... <a href="Aimar.html">Click here if not redirected</a>.</p>
+  </body>
+>>>>>>> 7c1c90c (Add index.html and Italian translation; update language switch)
 </html>
