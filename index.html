@@ -48,10 +48,10 @@ html{scroll-behavior:smooth;}
 
 body{
   background:
-    radial-gradient(ellipse 900px 500px at 12% -10%, rgba(59,111,224,0.16), transparent 60%),
-    radial-gradient(ellipse 700px 500px at 100% 10%, rgba(21,38,107,0.14), transparent 55%),
-    radial-gradient(ellipse 800px 600px at 50% 100%, rgba(59,111,224,0.08), transparent 60%),
-    var(--bg-0);
+    radial-gradient(circle at 16% 10%, rgba(59,111,224,0.24), transparent 22%),
+    radial-gradient(circle at 86% 12%, rgba(111,160,255,0.18), transparent 20%),
+    radial-gradient(circle at 52% 94%, rgba(111,160,255,0.10), transparent 44%),
+    linear-gradient(180deg, #07090c 0%, #090b10 48%, #07080b 100%);
   color:var(--ink-0);
   font-family:var(--ff-body);
   line-height:1.5;
@@ -68,9 +68,9 @@ body.page-loaded{
 
 .nav{
   position:fixed; top:0; left:0; right:0; z-index:100;
-  background:rgba(8,9,11,0.72);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--line);
+  background:rgba(8,9,11,0.76);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,255,255,0.06);
   opacity:0;
   transform:translateY(-12px);
   transition:opacity .7s ease, transform .7s ease;
@@ -81,46 +81,67 @@ body.page-loaded .nav{
 }
 
 .hero{
-  padding:150px 0 90px;
+  min-height:calc(100vh - 70px);
+  padding:160px 0 80px;
   position:relative;
   opacity:0;
   transform:translateY(12px);
   transition:opacity .8s ease, transform .8s ease;
+  overflow:hidden;
 }
+.hero::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(59,111,224,0.22), transparent 24%),
+    radial-gradient(circle at 82% 16%, rgba(111,160,255,0.14), transparent 20%);
+  filter:blur(18px);
+  opacity:0.95;
+  pointer-events:none;
+  z-index:0;
+  animation:heroGlow 14s ease-in-out infinite alternate;
+}
+.hero::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(7,9,12,0) 0%, rgba(7,9,12,0.22) 46%, rgba(7,9,12,0.42) 100%);
+  pointer-events:none;
+  z-index:0;
+}
+.hero .wrap{position:relative;z-index:1;}
 body.page-loaded .hero{
   opacity:1;
   transform:translateY(0);
 }
 
-/* animated tactical grid overlay behind everything */
 body::before{
   content:"";
   position:fixed; inset:0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
-  background-size:42px 42px;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(111,160,255,0.07), transparent 30%),
+    radial-gradient(circle at 78% 22%, rgba(59,111,224,0.06), transparent 22%);
   pointer-events:none;
   z-index:0;
-  mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent 75%);
-  animation:gridDrift 26s linear infinite;
-}
-@keyframes gridDrift{
-  0%{background-position:0 0, 0 0;}
-  100%{background-position:84px 0, 0 84px;}
 }
 
-/* soft floating light orbs for atmosphere */
 body::after{
   content:"";
   position:fixed; inset:0;
   pointer-events:none;
   z-index:0;
   background:
-    radial-gradient(320px 320px at 15% 20%, rgba(111,160,255,0.10), transparent 70%),
-    radial-gradient(260px 260px at 85% 65%, rgba(59,111,224,0.10), transparent 70%),
-    radial-gradient(240px 240px at 60% 90%, rgba(159,208,255,0.07), transparent 70%);
-  animation:orbFloat 18s ease-in-out infinite alternate;
+    radial-gradient(360px 360px at 15% 22%, rgba(111,160,255,0.08), transparent 70%),
+    radial-gradient(280px 280px at 86% 66%, rgba(59,111,224,0.08), transparent 72%),
+    radial-gradient(220px 220px at 58% 92%, rgba(159,208,255,0.06), transparent 72%);
+  animation:orbFloat 20s ease-in-out infinite alternate;
+}
+
+@keyframes heroGlow{
+  0%{transform:translate(0,0) scale(1);opacity:0.95;}
+  50%{transform:translate(-2%,2%) scale(1.02);opacity:0.88;}
+  100%{transform:translate(2%,-2%) scale(1);opacity:0.95;}
 }
 
 @media (prefers-reduced-motion: reduce) {
