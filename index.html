@@ -1374,6 +1374,15 @@ window.addEventListener('load', () => {
       setTimeout(() => overlay.remove(), 600);
     }, 1100);
   }
+  // Remove Home button - it's redundant when nav scrolls in-page
+  const homeBtn = document.getElementById('navHome');
+  if (homeBtn && homeBtn.parentNode) {
+    homeBtn.parentNode.removeChild(homeBtn);
+  }
+  // Ensure sectionLinks does not reference the removed Home button
+  if (window.sectionLinks && window.sectionLinks['#top']) {
+    delete window.sectionLinks['#top'];
+  }
 });
 
 </script>
