@@ -216,12 +216,12 @@ button{font-family:inherit;cursor:pointer;}
 }
 .nav-logo .dot{width:8px;height:8px;background:var(--accent);border-radius:1px;box-shadow:0 0 12px var(--accent);}
 .nav-links{display:flex;gap:34px;font-family:var(--ff-head);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;font-size:13.5px;}
-.nav-links a{color:var(--ink-1);position:relative;padding:4px 0;transition:color .25s, transform .25s;}
-.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-soft));transition:width .25s ease-in-out;}
-.nav-links a:hover{color:var(--ink-0);transform:translateY(-1px);}
-.nav-links a:hover::after{width:100%;}
-.nav-links a.active{color:var(--ink-0);}
-.nav-links a.active::after{width:100%;}
+.nav-links a, .nav-links .nav-link{color:var(--ink-1);position:relative;padding:4px 0;transition:color .25s, transform .25s;background:none;border:none;font:inherit;}
+.nav-links a::after, .nav-links .nav-link::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-soft));transition:width .25s ease-in-out;}
+.nav-links a:hover, .nav-links .nav-link:hover{color:var(--ink-0);transform:translateY(-1px);}
+.nav-links a:hover::after, .nav-links .nav-link:hover::after{width:100%;}
+.nav-links a.active, .nav-links .nav-link.active{color:var(--ink-0);}
+.nav-links a.active::after, .nav-links .nav-link.active::after{width:100%;}
 .lang-switch{font-family:var(--ff-head);font-weight:700;text-transform:uppercase;font-size:12px;color:var(--ink-0);background:rgba(59,111,224,0.15);border:1px solid rgba(111,160,255,0.22);border-radius:999px;padding:10px 14px;transition:filter .25s, transform .25s;}
 .lang-switch:hover{filter:brightness(1.08);}
 .nav-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:6px;}
@@ -573,11 +573,11 @@ footer strong{color:var(--ink-1);}
   <div class="wrap">
     <a href="#top" class="nav-logo"><span class="dot"></span>AIMARGTZ</a>
     <ul class="nav-links" id="navLinks">
-      <li><a id="navHome" href="#top">Inicio</a></li>
-      <li><a id="navProfile" href="#perfil">Perfil</a></li>
-      <li><a id="navStats" href="#stats">Estadísticas</a></li>
-      <li><a id="navSetup" href="#setup">Configuración</a></li>
-      <li><a id="navSteam" href="#steam">Steam</a></li>
+      <li><button id="navHome" class="nav-link" data-target="#top" type="button">Inicio</button></li>
+      <li><button id="navProfile" class="nav-link" data-target="#perfil" type="button">Perfil</button></li>
+      <li><button id="navStats" class="nav-link" data-target="#stats" type="button">Estadísticas</button></li>
+      <li><button id="navSetup" class="nav-link" data-target="#setup" type="button">Configuración</button></li>
+      <li><button id="navSteam" class="nav-link" data-target="#steam" type="button">Steam</button></li>
     </ul>
     <button class="lang-switch" id="langSwitch" aria-label="Switch language">ES</button>
     <button class="nav-toggle" id="navToggle" aria-label="Open menu">
@@ -1111,11 +1111,12 @@ const navToggle = document.getElementById('navToggle');
 const navLinks = document.getElementById('navLinks');
 navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
 
-navLinks.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', (event) => {
+navLinks.querySelectorAll('button[data-target]').forEach(btn => {
+  btn.addEventListener('click', (event) => {
     event.preventDefault();
     navLinks.classList.remove('open');
-    const target = document.querySelector(a.getAttribute('href'));
+    const selector = btn.getAttribute('data-target');
+    const target = document.querySelector(selector);
     if (!target) return;
     const offset = 82;
     const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
