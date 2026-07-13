@@ -157,18 +157,28 @@ button{font-family:inherit;cursor:pointer;}
   background:linear-gradient(90deg,var(--accent),var(--accent-deep));
 }
 
-.section{padding:100px 0;position:relative;}
-.section-head{margin-bottom:44px;}
+.section{padding:120px 0;position:relative;}
+.section::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:42px;
+  background:radial-gradient(circle at top left, rgba(59,111,224,0.07), transparent 34%), radial-gradient(circle at 80% 20%, rgba(111,160,255,0.08), transparent 25%);
+  pointer-events:none;
+}
+.section-head{margin-bottom:44px;padding:36px 32px 28px;border-radius:32px;background:rgba(7,8,13,0.95);border:1px solid rgba(255,255,255,0.08);box-shadow:0 24px 70px rgba(0,0,0,0.22);position:relative;z-index:1;}
+.section-head .eyebrow{background:rgba(59,111,224,0.12);color:var(--accent-light);padding:12px 16px;border-radius:999px;display:inline-flex;letter-spacing:0.18em;}
 .section-title{
   font-family:var(--ff-display);
   font-weight:800;
-  font-size:clamp(28px,3.4vw,42px);
+  font-size:clamp(32px,3.8vw,52px);
   letter-spacing:0.01em;
-  margin-top:10px;
+  margin-top:14px;
   text-transform:uppercase;
+  line-height:1.02;
 }
 .section-title span{color:var(--accent-light);}
-.section-sub{color:var(--ink-1);margin-top:10px;max-width:560px;font-size:15px;}
+.section-sub{color:var(--ink-1);margin-top:16px;max-width:720px;font-size:16px;line-height:1.8;}
 
 /* ---------- HUD corner-bracket signature element ---------- */
 .hud{
@@ -558,6 +568,7 @@ footer strong{color:var(--ink-1);}
   .stats-grid{grid-template-columns:1fr 1fr;}
   .links-grid{grid-template-columns:1fr;}
   .section{padding:70px 0;}
+  .section-head{padding:28px 24px;margin-bottom:28px;}
   .stats-grid .stat-card{padding:22px 18px;}
   .link-card{flex-wrap:wrap;}
   .contact-wrap{gap:30px;}
@@ -574,6 +585,7 @@ footer strong{color:var(--ink-1);}
   .hero-match-panel{padding:20px;}
   .match-list{gap:12px;}
   .match-card{min-width:220px;}
+  .section-head{padding:24px 18px;margin-bottom:24px;}
   .setup-table, .peripherals, .form-panel{padding:22px;}
   .links-grid{gap:14px;}
 }
