@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://avatars.fastly.steamstatic.com https://wsrv.nl https://api.allorigins.win; connect-src https://api.allorigins.win https://steamcommunity.com; frame-ancestors 'none'; base-uri 'self'; form-action 'none';">
+<meta name="referrer" content="no-referrer">
+<title>AIMARGTZ // CS2 Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Orbitron:wght@700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   AIMARGTZ // CS2 PLAYER PORTFOLIO
+   Tokens, layout and components below.
+   ============================================ */
+
+:root{
+  --bg-0:#08090b;
+  --bg-1:#111318;
+  --bg-2:#181b21;
+  --panel:rgba(24,27,33,0.55);
+  --panel-border:rgba(255,255,255,0.07);
+  --line:rgba(255,255,255,0.08);
+  --ink-0:#f2f2f0;
+  --ink-1:#a9adb6;
+  --ink-2:#6b6f78;
+  --accent:#3b6fe0;
+  --accent-light:#6fa0ff;
+  --accent-deep:#15266b;
+  --accent-soft:#9fd0ff;
+  --radius:14px;
+  --maxw:1180px;
+  --ff-display:'Orbitron', sans-serif;
+  --ff-head:'Rajdhani', sans-serif;
+  --ff-body:'Inter', sans-serif;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  background:
+    radial-gradient(ellipse 900px 500px at 12% -10%, rgba(59,111,224,0.16), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 10%, rgba(21,38,107,0.14), transparent 55%),
+    radial-gradient(ellipse 800px 600px at 50% 100%, rgba(59,111,224,0.08), transparent 60%),
+    var(--bg-0);
+  color:var(--ink-0);
+  font-family:var(--ff-body);
+  line-height:1.5;
+  overflow-x:hidden;
+  min-height:100vh;
+  opacity:0;
+  transform:translateY(10px);
+  transition:opacity .9s ease, transform .9s ease;
+}
+body.page-loaded{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.nav{
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(8,9,11,0.72);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  opacity:0;
+  transform:translateY(-12px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+body.page-loaded .nav{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.hero{
+  padding:150px 0 90px;
+  position:relative;
+  opacity:0;
+  transform:translateY(12px);
+  transition:opacity .8s ease, transform .8s ease;
+}
+body.page-loaded .hero{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* animated tactical grid overlay behind everything */
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+  background-size:42px 42px;
+  pointer-events:none;
+  z-index:0;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent 75%);
+  animation:gridDrift 26s linear infinite;
+}
+@keyframes gridDrift{
+  0%{background-position:0 0, 0 0;}
+  100%{background-position:84px 0, 0 84px;}
+}
+
+/* soft floating light orbs for atmosphere */
+body::after{
+  content:"";
+  position:fixed; inset:0;
+  pointer-events:none;
+  z-index:0;
+  background:
+    radial-gradient(320px 320px at 15% 20%, rgba(111,160,255,0.10), transparent 70%),
+    radial-gradient(260px 260px at 85% 65%, rgba(59,111,224,0.10), transparent 70%),
+    radial-gradient(240px 240px at 60% 90%, rgba(159,208,255,0.07), transparent 70%);
+  animation:orbFloat 18s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html{scroll-behavior:auto;}
+  *, *::before, *::after{animation:none!important;transition:none!important;}
+}
+@keyframes orbFloat{
+  0%{transform:translate(0,0) scale(1);}
+  50%{transform:translate(-2%,3%) scale(1.06);}
+  100%{transform:translate(3%,-2%) scale(1);}
+}
+
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;}
+img{max-width:100%;display:block;}
+button{font-family:inherit;cursor:pointer;}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;position:relative;z-index:1;}
+
+.eyebrow{
+  font-family:var(--ff-head);
+  font-weight:700;
+  letter-spacing:0.32em;
+  text-transform:uppercase;
+  font-size:12px;
+  color:var(--accent-light);
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.eyebrow::before{
+  content:"";
+  width:22px;height:2px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-deep));
+}
+
+.section{padding:100px 0;position:relative;}
+.section-head{margin-bottom:44px;}
+.section-title{
+  font-family:var(--ff-display);
+  font-weight:800;
+  font-size:clamp(28px,3.4vw,42px);
+  letter-spacing:0.01em;
+  margin-top:10px;
+  text-transform:uppercase;
+}
+.section-title span{color:var(--accent-light);}
+.section-sub{color:var(--ink-1);margin-top:10px;max-width:560px;font-size:15px;}
+
+/* ---------- HUD corner-bracket signature element ---------- */
+.hud{
+  position:relative;
+  background:var(--panel);
+  border:1px solid var(--panel-border);
+  border-radius:var(--radius);
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  transition:transform .35s ease, border-color .35s ease, box-shadow .35s ease;
+}
+.hud::before,.hud::after{
+  content:"";
+  position:absolute;
+  width:16px;height:16px;
+  border-top:2px solid var(--accent-light);
+  border-left:2px solid var(--accent-light);
+  top:-1px;left:-1px;
+  opacity:.55;
+  transition:opacity .3s ease, width .3s ease, height .3s ease;
+}
+.hud::after{
+  top:auto;left:auto;bottom:-1px;right:-1px;
+  border-top:none;border-left:none;
+  border-bottom:2px solid var(--accent-light);
+  border-right:2px solid var(--accent-light);
+}
+.hud:hover{transform:translateY(-4px);border-color:rgba(111,160,255,0.35);box-shadow:0 18px 40px -18px rgba(59,111,224,0.35);}
+.hud:hover::before,.hud:hover::after{opacity:1;width:22px;height:22px;}
+
+/* ============ NAV ============ */
+.nav{
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(8,9,11,0.72);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:70px;}
+.nav-logo{
+  font-family:var(--ff-display);
+  font-weight:900;
+  font-size:20px;
+  letter-spacing:0.05em;
+  display:flex;align-items:center;gap:8px;
+}
+.nav-logo .dot{width:8px;height:8px;background:var(--accent);border-radius:1px;box-shadow:0 0 12px var(--accent);}
+.nav-links{display:flex;gap:34px;font-family:var(--ff-head);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;font-size:13.5px;}
+.nav-links a{color:var(--ink-1);position:relative;padding:4px 0;transition:color .25s, transform .25s;}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-soft));transition:width .25s ease-in-out;}
+.nav-links a:hover{color:var(--ink-0);transform:translateY(-1px);}
+.nav-links a:hover::after{width:100%;}
+.nav-links a.active{color:var(--ink-0);}
+.nav-links a.active::after{width:100%;}
+.lang-switch{font-family:var(--ff-head);font-weight:700;text-transform:uppercase;font-size:12px;color:var(--ink-0);background:rgba(59,111,224,0.15);border:1px solid rgba(111,160,255,0.22);border-radius:999px;padding:10px 14px;transition:filter .25s, transform .25s;}
+.lang-switch:hover{filter:brightness(1.08);}
+.nav-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:6px;}
+.nav-toggle span{width:24px;height:2px;background:var(--ink-0);}
+
+/* ============ HERO / PROFILE ============ */
+.hero{
+  padding:150px 0 90px;
+  position:relative;
+}
+.hero-grid{
+  display:grid;
+  grid-template-columns:minmax(0,360px) 1fr;
+  gap:52px;
+  align-items:start;
+}
+.hero-left{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
+.hero-avatar-card{
+  position:relative;
+  display:block;
+  border-radius:22px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,0.09);
+  background:linear-gradient(180deg, rgba(28,32,44,0.96), rgba(12,14,18,0.94));
+  transition:transform .35s ease,box-shadow .35s ease;
+}
+.hero-avatar-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 22px 60px rgba(0,0,0,0.24);
+}
+.hero-avatar-card .hero-cta{
+  top:16px;right:16px;position:absolute;opacity:1;transform:none;pointer-events:auto;
+}
+.hero-avatar-card .avatar-frame{
+  min-height:360px;
+}
+.hero-match-panel{
+  grid-column:1 / -1;
+  padding:24px;
+  border-radius:24px;
+  background:rgba(8,10,15,0.98);
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 16px 40px rgba(0,0,0,0.16);
+  width:100%;
+}
+.hero-match-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:14px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  padding-bottom:14px;
+}
+.match-link{
+  font-family:var(--ff-head);
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  color:var(--accent-light);
+  letter-spacing:0.16em;
+}
+.match-link:hover{color:#fff;}
+.matches-note{margin:14px 0 18px;color:var(--ink-2);font-size:13px;}
+.match-list{display:flex;gap:14px;overflow-x:auto;padding-bottom:2px;scroll-snap-type:x mandatory;touch-action:pan-y;scroll-behavior:smooth;cursor:grab;}
+.match-list.dragging{cursor:grabbing;}
+.match-list::-webkit-scrollbar{height:8px;}
+.match-list::-webkit-scrollbar-track{background:transparent;}
+.match-list::-webkit-scrollbar-thumb{background:rgba(111,160,255,0.28);border-radius:999px;}
+.match-list{scrollbar-color:rgba(111,160,255,0.28) transparent;scrollbar-width:thin;}
+.match-card{min-width:260px;flex:0 0 260px;padding:18px 20px;background:linear-gradient(180deg, rgba(22,25,33,0.98), rgba(14,16,22,0.96));border:1px solid rgba(255,255,255,0.08);border-radius:18px;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease,opacity .35s ease;scroll-snap-align:start;user-select:none;opacity:0.15;transform:translateY(18px);}
+.match-card.in-view{opacity:1;transform:translateY(0);}
+.match-card:hover{transform:translateY(-2px);box-shadow:0 24px 60px rgba(0,0,0,0.2);}
+.match-summary{font-family:var(--ff-head);font-size:12px;letter-spacing:0.1em;color:var(--ink-2);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.match-score{font-family:var(--ff-display);font-size:24px;font-weight:900;color:#fff;margin-bottom:10px;}
+.match-meta,.match-detail{display:flex;flex-wrap:wrap;gap:10px;font-size:13px;color:var(--ink-1);margin-bottom:8px;}
+.match-meta span,.match-detail span{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:999px;padding:8px 12px;color:var(--ink-0);}
+.match-result{min-width:42px;text-align:center;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700;color:#fff;}
+.match-result.win{background:linear-gradient(90deg,#46d17b,#1fa15b);}
+.match-result.loss{background:linear-gradient(90deg,#de4d5b,#a82f3d);}
+.match-source{font-family:var(--ff-head);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent-light);padding:4px 8px;border:1px solid rgba(111,160,255,0.18);border-radius:999px;}
+.hero-link{
+  position:relative;
+  cursor:pointer;
+  border-radius:var(--radius);
+  padding:14px;
+  margin:-14px;
+  transition:transform .45s cubic-bezier(.2,.8,.2,1), filter .45s ease;
+}
+.hero-link:hover{transform:translateY(-4px); filter:brightness(1.06);}
+.hero-link:hover .avatar-frame{box-shadow:0 0 0 1px rgba(111,160,255,0.5), 0 24px 50px -20px rgba(59,111,224,0.55);}
+.hero-cta{
+  position:absolute; top:-2px; right:14px;
+  display:inline-flex; align-items:center; gap:7px;
+  font-family:var(--ff-head); font-weight:700; font-size:12px; letter-spacing:0.08em; text-transform:uppercase;
+  color:var(--accent-light);
+  background:rgba(8,9,11,0.75); border:1px solid rgba(111,160,255,0.3);
+  padding:6px 12px; border-radius:20px;
+  opacity:0; transform:translateY(-8px);
+  transition:opacity .3s ease, transform .3s ease;
+  pointer-events:none;
+}
+.hero-cta svg{width:13px;height:13px;transition:transform .3s ease;}
+.hero-link:hover .hero-cta{opacity:1; transform:translateY(0);}
+.hero-link:hover .hero-cta svg{transform:translate(2px,-2px);}
+.avatar-frame{
+  position:relative;
+  aspect-ratio:1/1;
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid rgba(111,160,255,0.25);
+  background:linear-gradient(155deg,#1c1f26,#0b0c0f);
+  transition:box-shadow .45s ease;
+}
+.avatar-frame .glyph{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-display);
+  font-weight:900;
+  font-size:96px;
+  color:rgba(111,160,255,0.14);
+  letter-spacing:0.02em;
+}
+.avatar-frame::before{
+  content:"";
+  position:absolute; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,var(--accent-light),transparent);
+  top:0;
+  animation:scan 3.2s linear infinite;
+  box-shadow:0 0 16px 2px rgba(111,160,255,0.6);
+}
+@keyframes scan{
+  0%{top:0; opacity:0;}
+  8%{opacity:1;}
+  92%{opacity:1;}
+  100%{top:100%; opacity:0;}
+}
+.avatar-frame .status{
+  position:absolute; bottom:12px; left:12px;
+  display:flex; align-items:center; gap:6px;
+  font-family:var(--ff-head); font-weight:700; font-size:11px;
+  letter-spacing:0.1em; text-transform:uppercase;
+  background:rgba(8,9,11,0.7); border:1px solid var(--line);
+  padding:5px 10px; border-radius:20px;
+}
+.status .pulse{width:7px;height:7px;border-radius:50%;background:#3ddc71;box-shadow:0 0 8px #3ddc71;animation:pulse 1.6s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+
+.hero-info .name-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;}
+.hero-info h1{
+  font-family:var(--ff-display);
+  font-weight:900;
+  font-size:clamp(40px,6vw,64px);
+  letter-spacing:0.01em;
+  line-height:1;
+  background:linear-gradient(90deg,#fff,#cfe0ff);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-info .realname{color:var(--ink-2);font-family:var(--ff-head);font-size:16px;font-weight:600;}
+.role-tag{
+  display:inline-flex;align-items:center;gap:6px;margin-top:12px;
+  font-family:var(--ff-head);font-weight:700;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--accent-light); border:1px solid rgba(111,160,255,0.35);
+  padding:5px 12px;border-radius:20px;background:rgba(59,111,224,0.06);
+}
+.hero-bio{margin-top:20px;color:var(--ink-1);max-width:560px;font-size:15px;}
+
+.hero-badges{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px;}
+.badge{
+  padding:12px 16px;min-width:118px;
+}
+.badge .b-label{font-family:var(--ff-head);font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-2);font-weight:700;}
+.badge .b-value{font-family:var(--ff-display);font-size:19px;font-weight:800;margin-top:4px;color:var(--ink-0);}
+.badge .b-value.rank{color:var(--accent-light);}
+.badge .b-value.faceit{color:var(--accent-deep);}
+
+/* ============ STATS ============ */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:40px;}
+.stat-card{padding:26px 22px;text-align:left;}
+.stat-card .ring-wrap{display:flex;align-items:center;gap:16px;}
+.ring{
+  --p:0;
+  width:64px;height:64px;border-radius:50%;
+  background:conic-gradient(var(--accent) calc(var(--p)*1%), rgba(255,255,255,0.08) 0);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.ring .ring-inner{
+  width:48px;height:48px;border-radius:50%;background:var(--bg-1);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-display);font-weight:800;font-size:13px;color:var(--ink-0);
+}
+.stat-card .s-label{font-family:var(--ff-head);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-2);font-weight:700;}
+.stat-card .s-value{font-family:var(--ff-display);font-weight:800;font-size:24px;margin-top:2px;}
+
+.panel{padding:28px;}
+.panel h3{font-family:var(--ff-head);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;font-size:15px;margin-bottom:20px;color:var(--ink-1);}
+.bar-row{margin-bottom:16px;}
+.bar-row:last-child{margin-bottom:0;}
+.bar-top{display:flex;justify-content:space-between;font-family:var(--ff-head);font-weight:600;font-size:13.5px;margin-bottom:6px;}
+.bar-top .pct{color:var(--accent-light);font-weight:700;}
+.bar-track{height:7px;border-radius:6px;background:rgba(255,255,255,0.06);overflow:hidden;}
+.bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--accent),var(--accent-soft));width:0%;transition:width 1.1s cubic-bezier(.2,.8,.2,1);}
+
+/* ============ SETUP ============ */
+.setup-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;}
+.setup-table{padding:28px;}
+.setup-table h3, .peripherals h3{font-family:var(--ff-head);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;font-size:15px;margin-bottom:18px;color:var(--ink-1);}
+.setup-row{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px dashed var(--line);font-family:var(--ff-head);font-size:14px;}
+.setup-row:last-child{border-bottom:none;}
+.setup-row .k{color:var(--ink-2);font-weight:600;letter-spacing:0.03em;}
+.setup-row .v{font-weight:700;color:var(--ink-0);}
+.peripherals{padding:28px;display:flex;flex-direction:column;gap:14px;}
+.peri-item{display:flex;gap:14px;align-items:flex-start;}
+.peri-icon{
+  width:38px;height:38px;border-radius:9px;background:rgba(59,111,224,0.1);border:1px solid rgba(111,160,255,0.25);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.peri-icon svg{width:18px;height:18px;stroke:var(--accent-light);fill:none;stroke-width:1.8;}
+.peri-text .p-label{font-family:var(--ff-head);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-2);font-weight:700;}
+.peri-text .p-value{font-size:14px;font-weight:600;margin-top:2px;}
+
+/* ============ LINKS ============ */
+.links-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.link-card{
+  padding:22px 20px;display:flex;align-items:center;gap:16px;
+}
+.link-icon{
+  width:46px;height:46px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.04);border:1px solid var(--line);
+}
+.link-icon svg{width:22px;height:22px;stroke:var(--ink-0);fill:none;stroke-width:1.7;}
+.link-card:hover .link-icon{background:rgba(59,111,224,0.15);border-color:rgba(111,160,255,0.4);}
+.link-card:hover .link-icon svg{stroke:var(--accent-light);}
+.link-text .l-name{font-family:var(--ff-head);font-weight:700;font-size:15.5px;}
+.link-text .l-handle{color:var(--ink-2);font-size:12.5px;margin-top:2px;}
+.link-arrow{margin-left:auto;color:var(--ink-2);font-size:18px;transition:transform .3s ease, color .3s ease;}
+.link-card:hover .link-arrow{transform:translateX(4px);color:var(--accent-light);}
+
+/* ============ CONTACT ============ */
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;}
+.contact-info .c-row{margin-bottom:22px;}
+.contact-info .c-row .k{font-family:var(--ff-head);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-2);font-weight:700;}
+.contact-info .c-row .v{font-size:16px;margin-top:4px;font-weight:600;}
+.contact-info .v a:hover{color:var(--accent-light);}
+
+.form-panel{padding:32px;}
+.field{margin-bottom:18px;}
+.field label{display:block;font-family:var(--ff-head);font-size:11px;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-2);font-weight:700;margin-bottom:7px;}
+.field input, .field textarea{
+  width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:8px;
+  padding:12px 14px;color:var(--ink-0);font-family:var(--ff-body);font-size:14px;
+  transition:border-color .25s, background .25s;
+}
+.field input:focus, .field textarea:focus{outline:none;border-color:rgba(111,160,255,0.55);background:rgba(59,111,224,0.04);}
+.field textarea{resize:vertical;min-height:100px;}
+.submit-btn{
+  width:100%;padding:14px;border:none;border-radius:8px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-deep));
+  color:#fff;font-family:var(--ff-head);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;font-size:14px;
+  transition:filter .25s, transform .2s;
+}
+.submit-btn:hover{filter:brightness(1.12);transform:translateY(-2px);}
+.form-msg{margin-top:12px;font-size:13px;font-family:var(--ff-head);font-weight:600;min-height:18px;color:#3ddc71;}
+
+footer{
+  border-top:1px solid var(--line);
+  padding:30px 0;
+  text-align:center;
+  color:var(--ink-2);
+  font-size:13px;
+  position:relative;z-index:1;
+}
+footer strong{color:var(--ink-1);}
+
+/* scroll reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease, transform .7s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1180px){
+  .wrap{padding:0 20px;}
+}
+@media (max-width:980px){
+  .hero-grid{grid-template-columns:minmax(0,280px) 1fr;gap:34px;}
+  .hero-left{max-width:320px;width:100%;}
+  .hero-avatar-card{max-width:100%;}
+  .hero-avatar-card .avatar-frame{min-height:auto;}
+  .hero-info{min-width:0;}
+  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .setup-grid{grid-template-columns:1fr;}
+  .links-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .contact-wrap{grid-template-columns:1fr;}
+}
+@media (max-width:720px){
+  .nav .wrap{flex-wrap:wrap;align-items:center;row-gap:12px;}
+  .nav-links{
+    position:fixed;top:70px;left:0;right:0;bottom:0;
+    background:rgba(8,9,11,0.97);
+    flex-direction:column;padding:30px 24px;gap:22px;
+    transform:translateX(100%);transition:transform .3s ease;
+    z-index:99;
+  }
+  .nav-links.open{transform:translateX(0);}
+  .nav-toggle{display:flex;}
+  .hero{padding:110px 0 60px;}
+  .hero-grid{grid-template-columns:1fr;gap:28px;}
+  .hero-left{margin:0 auto;max-width:420px;}
+  .hero-avatar-card{margin:0 auto;max-width:420px;}
+  .hero-avatar-card .hero-cta{right:16px;}
+  .avatar-frame{max-width:320px;margin:0 auto;}
+  .hero-info{text-align:center;}
+  .hero-info .name-row{justify-content:center;}
+  .hero-bio{margin-left:auto;margin-right:auto;max-width:100%;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .links-grid{grid-template-columns:1fr;}
+  .section{padding:70px 0;}
+  .stats-grid .stat-card{padding:22px 18px;}
+  .link-card{flex-wrap:wrap;}
+  .contact-wrap{gap:30px;}
+  .form-panel{padding:24px;}
+}
+@media (max-width:560px){
+  .nav .wrap{height:auto;padding-top:12px;padding-bottom:12px;}
+  .hero{padding:90px 0 50px;}
+  .hero-info h1{font-size:clamp(34px,8vw,52px);}
+  .hero-bio{font-size:14px;}
+  .hero-badges{justify-content:center;}
+  .stats-grid{grid-template-columns:1fr;}
+  .setup-grid{gap:18px;}
+  .hero-match-panel{padding:20px;}
+  .match-list{gap:12px;}
+  .match-card{min-width:220px;}
+  .setup-table, .peripherals, .form-panel{padding:22px;}
+  .links-grid{gap:14px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="wrap">
+    <a href="#top" class="nav-logo"><span class="dot"></span>AIMARGTZ</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a id="navHome" href="#top">Inicio</a></li>
+      <li><a id="navProfile" href="#perfil">Perfil</a></li>
+      <li><a id="navStats" href="#stats">Estadísticas</a></li>
+      <li><a id="navSetup" href="#setup">Configuración</a></li>
+      <li><a id="navSteam" href="#steam">Steam</a></li>
+    </ul>
+    <button class="lang-switch" id="langSwitch" aria-label="Switch language">ES</button>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ============ HERO / PERFIL ============ -->
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div class="hero-left">
+      <a class="hero-avatar-card" id="perfil" href="https://steamcommunity.com/id/Aimargtz/" target="_blank" rel="noopener noreferrer" aria-label="View my Steam profile">
+        <span class="hero-cta" id="heroCta">View on Steam <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></span>
+        <div class="avatar-frame">
+          <div class="glyph" id="avatarGlyph" style="display:none;">A</div>
+          <img id="steamAvatarImg" src="https://avatars.fastly.steamstatic.com/fe901199d61d6557b9affa79453b80e83388f1c3_full.jpg" alt="Steam profile photo" style="display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" data-fallback="0" onerror="handleAvatarError(this)" referrerpolicy="no-referrer">
+          <div class="status" id="heroStatus"><span class="pulse"></span>ONLINE</div>
+        </div>
+      </a>
+    </div>
+    <div class="hero-info">
+      <div class="eyebrow" id="heroEyebrow">Programmer portfolio</div>
+      <div class="name-row">
+        <h1>AIMARGTZ</h1>
+      </div>
+      <span class="role-tag" id="roleTag">Rifler</span>
+      <p class="hero-bio" id="heroBio">
+        Programmer and CS2 enthusiast who built this page because I was bored. I enjoy making web projects and tracking game-related data on the side.
+      </p>
+      <div class="hero-badges">
+        <div class="hud badge"><div class="b-label" id="faceitLabel">FACEIT</div><div class="b-value faceit" id="faceitValue">FACEIT 4 • 1000</div></div>
+        <div class="hud badge"><div class="b-label" id="peakEloLabel">Peak Premier ELO</div><div class="b-value rank">12,000</div></div>
+        <div class="hud badge"><div class="b-label" id="hoursLabel">Hours played</div><div class="b-value">344</div></div>
+      </div>
+    </div>
+    <div class="hero-match-panel reveal">
+      <div class="hero-match-head">
+        <div class="eyebrow" id="matchesEyebrow">Match history</div>
+        <a class="match-link" href="https://www.faceit.com/es/players/Aimar3/cs2/history" target="_blank" rel="noopener noreferrer">Full history</a>
+      </div>
+      <p class="matches-note" id="matchesSub">Latest CS2 rounds from Faceit, placed directly under the profile.</p>
+      <div class="match-list" id="matchList"></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ ESTADÍSTICAS ============ -->
+<section class="section" id="stats">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow" id="statsEyebrow">Performance</div>
+      <h2 class="section-title" id="statsTitle">Player <span>stats</span></h2>
+      <p class="section-sub" id="statsSub">
+        Aggregated competitive match data from FACEIT and Premier.
+        Full stats verified on <a href="https://csrep.gg/player/76561199279300867" target="_blank" rel="noopener noreferrer" style="color:var(--accent-light);font-weight:600;">csrep.gg ↗</a>
+      </p>
+    </div>
+
+    <div class="stats-grid reveal">
+      <div class="hud stat-card">
+        <div class="ring-wrap">
+          <div class="ring" data-percent="71"><div class="ring-inner">71%</div></div>
+          <div><div class="s-label">K/D Ratio</div><div class="s-value">1.42</div></div>
+        </div>
+      </div>
+      <div class="hud stat-card">
+        <div class="ring-wrap">
+          <div class="ring" data-percent="58"><div class="ring-inner">58%</div></div>
+          <div><div class="s-label">Headshot %</div><div class="s-value">58.3%</div></div>
+        </div>
+      </div>
+      <div class="hud stat-card">
+        <div class="ring-wrap">
+          <div class="ring" data-percent="64"><div class="ring-inner">64%</div></div>
+          <div><div class="s-label">Win Rate</div><div class="s-value">64.1%</div></div>
+        </div>
+      </div>
+      <div class="hud stat-card">
+        <div class="ring-wrap">
+          <div class="ring" data-percent="59"><div class="ring-inner">1.18</div></div>
+          <div><div class="s-label">Rating 2.0</div><div class="s-value">1.18</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal" style="max-width:560px;">
+      <div class="hud panel">
+        <h3 id="mapsTitle">Favorite maps</h3>
+        <div class="bar-row">
+          <div class="bar-top"><span>Mirage</span><span class="pct">74%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="74"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-top"><span>Inferno</span><span class="pct">69%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="69"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-top"><span>Ancient</span><span class="pct">61%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="61"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-top"><span>Anubis</span><span class="pct">57%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="57"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-top"><span>Nuke</span><span class="pct">48%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="48"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SETUP ============ -->
+<section class="section" id="setup">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow" id="setupEyebrow">Gear</div>
+      <h2 class="section-title" id="setupTitle">Player <span>setup</span></h2>
+      <p class="section-sub" id="setupSub">Settings, peripherals and equipment used while playing CS2.</p>
+    </div>
+    <div class="setup-grid reveal">
+      <div class="hud setup-table">
+        <h3 id="setupPanelTitle">Mouse and display</h3>
+        <div class="setup-row"><span class="k" id="labelDpi">DPI</span><span class="v">800</span></div>
+        <div class="setup-row"><span class="k" id="labelSensitivity">Sensitivity</span><span class="v">1.07</span></div>
+        <div class="setup-row"><span class="k" id="labelEdpi">eDPI</span><span class="v">1000</span></div>
+        <div class="setup-row"><span class="k" id="labelResolution">Resolution</span><span class="v">1280 × 960</span></div>
+        <div class="setup-row"><span class="k" id="labelRefresh">Refresh rate</span><span class="v">180 Hz</span></div>
+        <div class="setup-row"><span class="k" id="labelZoom">Zoom sensitivity</span><span class="v">1.00</span></div>
+        <div class="setup-row"><span class="k" id="labelRawInput">Raw Input</span><span class="v" id="valueRawInput">Enabled</span></div>
+      </div>
+      <div class="hud peripherals">
+        <h3 id="peripheralsTitle">Peripherals and PC</h3>
+        <div class="peri-item">
+          <div class="peri-icon"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="16" rx="5"/><path d="M12 6v4"/></svg></div>
+          <div class="peri-text"><div class="p-label" id="labelMouse">Mouse</div><div class="p-value">Logitech Pro Superlight</div></div>
+        </div>
+        <div class="peri-item">
+          <div class="peri-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M8 14h8"/></svg></div>
+          <div class="peri-text"><div class="p-label" id="labelKeyboard">Keyboard</div><div class="p-value">Mchose ACE60 Pro</div></div>
+        </div>
+        <div class="peri-item">
+          <div class="peri-icon"><svg viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2" y="13" width="4" height="7" rx="1"/><rect x="18" y="13" width="4" height="7" rx="1"/></svg></div>
+          <div class="peri-text"><div class="p-label" id="labelHeadset">Headset</div><div class="p-value">Logitech G933</div></div>
+        </div>
+        <div class="peri-item">
+          <div class="peri-icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="1"/><path d="M8 21h8M12 17v4"/></svg></div>
+          <div class="peri-text"><div class="p-label" id="labelMonitor">Monitor</div><div class="p-value">MSI 24,5" 180Hz</div></div>
+        </div>
+        <div class="peri-item">
+          <div class="peri-icon"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h4"/></svg></div>
+          <div class="peri-text"><div class="p-label" id="labelPC">PC</div><div class="p-value">Intel i5 12400F · GTX 1650 · 16GB RAM</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STEAM ============ -->
+<section class="section" id="steam">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow" id="steamEyebrow">Follow me</div>
+      <h2 class="section-title" id="steamTitle">My <span>Steam profile</span></h2>
+      <p class="section-sub" id="steamSub">Add me on Steam or check my recent activity.</p>
+    </div>
+    <div class="links-grid reveal" id="linksGrid" style="grid-template-columns:minmax(0,340px);"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span id="footerText"><strong>AIMARGTZ</strong> // CS2 Player Portfolio</span>
+  </div>
+</footer>
+
+<script>
+/* ============================================
+   DATA — edita este array para personalizar
+   los enlaces sin tocar el HTML.
+   ============================================ */
+
+const SOCIAL_LINKS = [
+  { name: "Steam", handle: "/id/Aimargtz", url: "https://steamcommunity.com/id/Aimargtz/", icon: `<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.4"/><path d="M4 15l4-2"/>` },
+  { name: "FACEIT", handle: "Aimar3", url: "https://www.faceit.com/es/players/Aimar3", icon: `<path d="M7 7h10v10H7z"/>` },
+  { name: "CSFLOAT", handle: "csfloat.com/stall/76561199279300867", url: "https://csfloat.com/stall/76561199279300867", icon: `<path d="M6 12h12"/><path d="M12 6v12"/>` },
+];
+
+const MATCH_HISTORY = [
+  {
+    date: '30 Jun',
+    time: '18:11',
+    result: 'L',
+    score: '9 : 13',
+    map: 'Dust 2',
+    skill: '4',
+    elo: '1000',
+    kd: '0.80',
+    kda: '11 / 18 / 2',
+    url: 'https://www.faceit.com/es/cs2/room/1-a77bcb0f-c237-4f41-b13f-cf9476f89edd/scoreboard'
+  },
+  {
+    date: '27 Jun',
+    time: '19:53',
+    result: 'L',
+    score: '10 : 13',
+    map: 'Ancient',
+    skill: '4',
+    elo: '1028',
+    kd: '0.96',
+    kda: '12 / 20 / 2',
+    url: 'https://www.faceit.com/es/cs2/room/1-38ef8746-5ae6-4e4b-8e6d-79a7c37b012b/scoreboard'
+  },
+  {
+    date: '27 Jun',
+    time: '19:22',
+    result: 'W',
+    score: '13 : 4',
+    map: 'Anubis',
+    skill: '5',
+    elo: '1058',
+    kd: '1.13',
+    kda: '11 / 13 / 7',
+    url: 'https://www.faceit.com/es/cs2/room/1-0293bb4f-deb2-414c-880d-b9cc37db2e46/scoreboard'
+  },
+  {
+    date: '8 Jun',
+    time: '16:02',
+    result: 'L',
+    score: '9 : 13',
+    map: 'Mirage',
+    skill: '4',
+    elo: '1031',
+    kd: '0.92',
+    kda: '8 / 18 / 6',
+    url: 'https://www.faceit.com/es/cs2/room/1-65bae300-360d-456b-9ace-5fcd648d383e/scoreboard'
+  },
+  {
+    date: '7 Jun',
+    time: '11:29',
+    result: 'W',
+    score: '13 : 10',
+    map: 'Anubis',
+    skill: 'Unranked',
+    elo: '',
+    kd: '0.88',
+    kda: '9 / 12 / 5',
+    source: 'Faceit',
+    url: 'https://www.faceit.com/es/cs2/room/1-437d6f36-9a9d-4cd7-b39b-32152c8e8f9a/scoreboard'
+  },
+  {
+    date: '5 Jun',
+    time: '20:34',
+    result: 'W',
+    score: '13 : 8',
+    map: 'Inferno',
+    skill: '5',
+    elo: '1105',
+    kd: '1.05',
+    kda: '15 / 12 / 4',
+    source: 'Competitive',
+    url: ''
+  },
+  {
+    date: '2 Jun',
+    time: '21:12',
+    result: 'L',
+    score: '11 : 13',
+    map: 'Vertigo',
+    skill: '4',
+    elo: '1042',
+    kd: '0.97',
+    kda: '10 / 14 / 5',
+    source: 'Competitive',
+    url: ''
+  }
+];
+
+function renderMatchHistory() {
+  const list = document.getElementById('matchList');
+  list.innerHTML = MATCH_HISTORY.map(match => `
+    <div class="match-card hud">
+      <div class="match-summary">
+        <div>${match.date} · ${match.time}</div>
+        <div class="match-result ${match.result === 'W' ? 'win' : 'loss'}">${match.result}</div>
+      </div>
+      <div class="match-score">${match.score}</div>
+      <div class="match-meta">
+        <span>${match.map}</span>
+        <span>${match.skill === 'Unranked' ? 'Unranked' : `SL ${match.skill}`}</span>
+        ${match.elo ? `<span>ELO ${match.elo}</span>` : ''}
+        <span class="match-source">${match.source}</span>
+      </div>
+      <div class="match-detail">
+        <span>${match.kd} K/D</span>
+        <span>${match.kda}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+renderMatchHistory();
+
+const matchListEl = document.getElementById('matchList');
+let isDragging = false;
+let startX = 0;
+let scrollLeft = 0;
+
+function isScrollbarClick(event, element) {
+  const rect = element.getBoundingClientRect();
+  return event.clientY > rect.top + element.clientHeight;
+}
+
+matchListEl.addEventListener('pointerdown', (event) => {
+  if (isScrollbarClick(event, matchListEl)) return;
+  isDragging = true;
+  startX = event.clientX - matchListEl.offsetLeft;
+  scrollLeft = matchListEl.scrollLeft;
+  matchListEl.setPointerCapture(event.pointerId);
+  matchListEl.classList.add('dragging');
+  event.preventDefault();
+});
+
+matchListEl.addEventListener('pointermove', (event) => {
+  if (!isDragging) return;
+  const x = event.clientX - matchListEl.offsetLeft;
+  const walk = (x - startX) * 1.3;
+  matchListEl.scrollLeft = scrollLeft - walk;
+});
+
+matchListEl.addEventListener('pointerup', (event) => {
+  if (!isDragging) return;
+  isDragging = false;
+  matchListEl.releasePointerCapture(event.pointerId);
+  matchListEl.classList.remove('dragging');
+});
+
+matchListEl.addEventListener('pointercancel', () => {
+  if (!isDragging) return;
+  isDragging = false;
+  matchListEl.classList.remove('dragging');
+});
+
+matchListEl.addEventListener('pointerleave', () => {
+  if (!isDragging) return;
+  isDragging = false;
+  matchListEl.classList.remove('dragging');
+});
+
+const cardObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in-view');
+      cardObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+function observeMatchCards() {
+  document.querySelectorAll('.match-card').forEach(card => cardObserver.observe(card));
+}
+
+observeMatchCards();
+
+/* ============ RENDER LINKS ============ */
+const linksGrid = document.getElementById('linksGrid');
+SOCIAL_LINKS.forEach(link => {
+  const el = document.createElement('a');
+  el.className = 'hud link-card';
+  el.href = link.url;
+  el.target = '_blank';
+  el.rel = 'noopener noreferrer';
+  el.innerHTML = `
+    <div class="link-icon"><svg viewBox="0 0 24 24">${link.icon}</svg></div>
+    <div class="link-text">
+      <div class="l-name">${link.name}</div>
+      <div class="l-handle">${link.handle}</div>
+    </div>
+    <span class="link-arrow">→</span>`;
+  linksGrid.appendChild(el);
+});
+
+/* ============================================
+   SINCRONIZACIÓN CON STEAM (foto de perfil)
+   ============================================
+   Se muestra tu foto de Steam y se actualiza sola cuando la cambies,
+   sin que tengas que desplegar nada. Cada 10 minutos (y al cargar la
+   página) se consulta la página pública de tu perfil
+   (https://steamcommunity.com/id/Aimargtz/?xml=1) a través de un
+   proxy CORS público gratuito, ya que Steam no permite leer esa
+   respuesta directamente desde el navegador de otro dominio.
+
+   Para que la FOTO se vea sí o sí, se intenta en cascada:
+     1. La URL directa del CDN de Steam.
+     2. Si falla (algunos CDNs bloquean peticiones "hotlink" sin
+        referer válido, algo habitual al abrir este HTML como
+        archivo local), se reintenta a través de wsrv.nl, un proxy
+        de imágenes público que sirve la foto desde su propio dominio.
+     3. Si ambas fallan, se muestra el glifo "A" de respaldo en vez
+        de un icono de imagen rota.
+
+   ALTERNATIVA MÁS ROBUSTA (opcional):
+   Si más adelante quieres algo 100% bajo tu control (sin depender de
+   proxies de terceros), puedes desplegar tu propio proxy serverless
+   con el archivo "steam-avatar-proxy-example.js" (listo para Vercel)
+   y rellenar STEAM_PROFILE.avatarEndpoint con su URL. Si lo rellenas,
+   se usará automáticamente en lugar de los proxies públicos.
+*/
+const STEAM_PROFILE = {
+  vanity: 'Aimargtz',                                            // tu /id/ de Steam
+  avatarEndpoint: ''                                              // opcional: URL de tu propio proxy (ver steam-avatar-proxy-example.js)
+};
+
+let currentSteamState = 'online';
+
+function updateSteamStatusText(isOnline) {
+  const statusEl = document.getElementById('heroStatus');
+  if (!statusEl) return;
+  statusEl.textContent = isOnline ? I18N[currentLang].heroStatusOnline : I18N[currentLang].heroStatusOffline;
+  if (isOnline) {
+    statusEl.classList.remove('offline');
+  } else {
+    statusEl.classList.add('offline');
+  }
+}
+
+const FACEIT_PROFILE = {
+  vanity: 'Aimar3',
+  endpoint: 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://www.faceit.com/es/players/Aimar3')
+};
+
+function parseFaceitProfile(html) {
+  const result = { level: null, elo: null };
+  const match = html.match(/Nivel de habilidad de\s*(\d{1,2})\s*(\d{3,4})/i)
+    || html.match(/Skill Level[^\d]*(\d{1,2})[^\d]*(\d{3,4})/i)
+    || html.match(/(\d{1,2})\s*Skill Level[^\d]*(\d{3,4})/i);
+  if (match) {
+    result.level = match[1];
+    result.elo = match[2];
+    return result;
+  }
+
+  const levelMatch = html.match(/Level[^\d]*(\d{1,2})/i);
+  const eloMatch = html.match(/(\d{3,4})\s*Elo/i) || html.match(/Elo[^\d]*(\d{3,4})/i);
+  if (levelMatch) result.level = levelMatch[1];
+  if (eloMatch) result.elo = eloMatch[1];
+  return result;
+}
+
+async function loadFaceitStatus() {
+  try {
+    const res = await fetch(FACEIT_PROFILE.endpoint);
+    if (!res.ok) throw new Error('Faceit public profile request failed');
+    const htmlText = await res.text();
+    const parsed = parseFaceitProfile(htmlText);
+    if (parsed.level) {
+      const faceitEl = document.getElementById('faceitValue');
+      faceitEl.textContent = `FACEIT ${parsed.level}${parsed.elo ? ' • ' + parsed.elo : ''}`;
+    }
+  } catch (err) {
+    console.warn('No se pudo actualizar Faceit automáticamente:', err);
+  }
+}
+
+// Cascada de reintentos si la imagen del avatar falla al cargar
+function handleAvatarError(img) {
+  const tried = parseInt(img.dataset.fallback || '0', 10);
+  if (tried === 0) {
+    // 2º intento: servir la misma foto a través de un proxy de imágenes (evita bloqueos de hotlink)
+    img.dataset.fallback = '1';
+    const rawUrl = img.src.replace(/^https?:\/\//, '');
+    img.src = `https://wsrv.nl/?url=${encodeURIComponent(rawUrl)}&default=1`;
+  } else {
+    // Ambos intentos fallaron: muestra el glifo de respaldo, nunca un icono roto
+    img.style.display = 'none';
+    document.getElementById('avatarGlyph').style.display = 'flex';
+  }
+}
+
+async function loadSteamAvatar() {
+  try {
+    let avatarUrl = null;
+
+    // Nota de seguridad: esta página no recopila datos privados.
+    // Solo se solicita el perfil público de Steam para actualizar el avatar.
+    // El proxy CORS solo sirve como puente para leer información pública.
+    if (STEAM_PROFILE.avatarEndpoint) {
+      // Usa tu proxy propio, si lo has desplegado (más fiable a largo plazo)
+      const res = await fetch(`${STEAM_PROFILE.avatarEndpoint}?vanity=${STEAM_PROFILE.vanity}`);
+      if (!res.ok) throw new Error('Respuesta no válida del proxy propio');
+      const data = await res.json();
+      avatarUrl = data.avatarUrl || null;
+    } else {
+      // Sin proxy propio: lee el XML público del perfil a través de un proxy CORS gratuito
+      const profileXmlUrl = `https://steamcommunity.com/id/${STEAM_PROFILE.vanity}/?xml=1`;
+      const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(profileXmlUrl)}`);
+      if (!res.ok) throw new Error('Respuesta no válida del proxy público');
+      const xmlText = await res.text();
+      const xmlDoc = new DOMParser().parseFromString(xmlText, 'text/xml');
+      avatarUrl = xmlDoc.querySelector('avatarFull')?.textContent || null;
+      const onlineState = (xmlDoc.querySelector('onlineState')?.textContent || xmlDoc.querySelector('state')?.textContent || '').toLowerCase();
+      const isOnline = onlineState && !/offline|invisible/i.test(onlineState);
+      currentSteamState = isOnline ? 'online' : 'offline';
+      updateSteamStatusText(isOnline);
+    }
+
+    if (avatarUrl) {
+      const imgEl = document.getElementById('steamAvatarImg');
+      imgEl.dataset.fallback = '0';
+      imgEl.src = avatarUrl;
+      imgEl.style.display = 'block';
+      document.getElementById('avatarGlyph').style.display = 'none';
+    }
+  } catch (err) {
+    console.warn('No se pudo sincronizar el avatar de Steam, se mantiene la foto actual.', err);
+    currentSteamState = 'offline';
+    updateSteamStatusText(false);
+  }
+}
+loadSteamAvatar();
+loadFaceitStatus();
+// Vuelve a comprobar cada 10 minutos para reflejar cambios de foto y nivel Faceit sin recargar la página
+setInterval(loadSteamAvatar, 10 * 60 * 1000);
+setInterval(loadFaceitStatus, 10 * 60 * 1000);
+window.addEventListener('load', () => document.body.classList.add('page-loaded'));
+
+/* ============ MOBILE NAV TOGGLE ============ */
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+navLinks.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (event) => {
+    event.preventDefault();
+    navLinks.classList.remove('open');
+    const target = document.querySelector(a.getAttribute('href'));
+    if (!target) return;
+    const offset = 82;
+    const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
+});
+
+const sectionLinks = {
+  '#top': document.getElementById('navHome'),
+  '#perfil': document.getElementById('navProfile'),
+  '#stats': document.getElementById('navStats'),
+  '#setup': document.getElementById('navSetup'),
+  '#steam': document.getElementById('navSteam')
+};
+
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    Object.values(sectionLinks).forEach(link => link.classList.remove('active'));
+    const id = `#${entry.target.id}`;
+    const activeLink = sectionLinks[id];
+    if (activeLink) activeLink.classList.add('active');
+  });
+}, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+
+Object.keys(sectionLinks).forEach(selector => {
+  const section = document.querySelector(selector);
+  if (section) sectionObserver.observe(section);
+});
+
+/* ============ SCROLL REVEAL ============ */
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+revealEls.forEach(el => revealObserver.observe(el));
+
+/* animate bar fills and rings once visible */
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.bar-fill').forEach(bar => {
+        bar.style.width = bar.dataset.w + '%';
+      });
+      entry.target.querySelectorAll('.ring').forEach(ring => {
+        ring.style.setProperty('--p', ring.dataset.percent);
+      });
+      barObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.2 });
+document.querySelectorAll('#stats .panel, .stats-grid').forEach(el => barObserver.observe(el));
+
+const I18N = {
+  en: {
+    navHome: 'Home',
+    navProfile: 'Profile',
+    navStats: 'Stats',
+    navSetup: 'Setup',
+    navSteam: 'Steam',
+    heroCta: 'View on Steam',
+    heroStatusOnline: 'ONLINE',
+    heroStatusOffline: 'OFFLINE',
+    heroEyebrow: 'Programmer portfolio',
+    heroBio: 'Programmer and CS2 enthusiast who built this page because I was bored. I enjoy making web projects and tracking game-related data on the side.',
+    faceitLabel: 'FACEIT',
+    faceitValue: 'FACEIT 4 • 1000',
+    statsEyebrow: 'Performance',
+    statsTitle: 'Player <span>stats</span>',
+    statsSub: 'Aggregated competitive match data from FACEIT and Premier. Full stats verified on <a href="https://csrep.gg/player/76561199279300867" target="_blank" rel="noopener noreferrer" style="color:var(--accent-light);font-weight:600;">csrep.gg ↗</a>',
+    setupEyebrow: 'Gear',
+    setupTitle: 'Player <span>setup</span>',
+    setupSub: 'Settings, peripherals and equipment used while playing CS2.',
+    matchesEyebrow: 'Match history',
+    matchesTitle: 'Recent <span>matches</span>',
+    matchesSub: 'Latest competitive CS2 rounds in Faceit style, updated automatically when possible.',
+    mapsTitle: 'Favorite maps',
+    setupPanelTitle: 'Mouse and display',
+    labelDpi: 'DPI',
+    labelSensitivity: 'Sensitivity',
+    labelEdpi: 'eDPI',
+    labelResolution: 'Resolution',
+    labelRefresh: 'Refresh rate',
+    labelZoom: 'Zoom sensitivity',
+    labelRawInput: 'Raw Input',
+    valueRawInput: 'Enabled',
+    peripheralsTitle: 'Peripherals and PC',
+    labelMouse: 'Mouse',
+    labelKeyboard: 'Keyboard',
+    labelHeadset: 'Headset',
+    labelMonitor: 'Monitor',
+    labelPC: 'PC',
+    steamEyebrow: 'Follow me',
+    steamTitle: 'My <span>Steam profile</span>',
+    steamSub: 'Add me on Steam or check my recent activity.',
+    footerText: '<strong>AIMARGTZ</strong> // CS2 Player Portfolio',
+    langSwitch: 'ES'
+  },
+  es: {
+    navHome: 'Inicio',
+    navProfile: 'Perfil',
+    navStats: 'Estadísticas',
+    navSetup: 'Configuración',
+    navSteam: 'Steam',
+    heroCta: 'Ver en Steam',
+    heroStatusOnline: 'EN LÍNEA',
+    heroStatusOffline: 'DESCONECTADO',
+    heroEyebrow: 'Portafolio de programador',
+    heroBio: 'Programador y entusiasta de CS2 que creó esta página porque me aburría. Me gusta hacer proyectos web y seguir datos relacionados con el juego como hobby.',
+    faceitLabel: 'FACEIT',
+    faceitValue: 'FACEIT 4 • 1000',
+    statsEyebrow: 'Rendimiento',
+    statsTitle: 'Estadísticas del <span>jugador</span>',
+    statsSub: 'Datos agregados de partidas competitivas en FACEIT y Premier. Stats completas y verificadas en <a href="https://csrep.gg/player/76561199279300867" target="_blank" rel="noopener noreferrer" style="color:var(--accent-light);font-weight:600;">csrep.gg ↗</a>',
+    setupEyebrow: 'Equipo',
+    setupTitle: 'Configuración del <span>jugador</span>',
+    setupSub: 'Ajustes, periféricos y equipo utilizados mientras juego CS2.',
+    matchesEyebrow: 'Historial de partidas',
+    matchesTitle: 'Últimas <span>partidas</span>',
+    matchesSub: 'Las rondas más recientes de CS2 con estilo Faceit, actualizadas automáticamente cuando sea posible.',
+    mapsTitle: 'Mapas favoritos',
+    setupPanelTitle: 'Sensibilidad y pantalla',
+    labelDpi: 'DPI',
+    labelSensitivity: 'Sensibilidad',
+    labelEdpi: 'eDPI',
+    labelResolution: 'Resolución',
+    labelRefresh: 'Frecuencia de monitor',
+    labelZoom: 'Sensibilidad de zoom',
+    labelRawInput: 'Raw Input',
+    valueRawInput: 'Activado',
+    peripheralsTitle: 'Periféricos y PC',
+    labelMouse: 'Ratón',
+    labelKeyboard: 'Teclado',
+    labelHeadset: 'Auriculares',
+    labelMonitor: 'Monitor',
+    labelPC: 'PC',
+    steamEyebrow: 'Sígueme',
+    steamTitle: 'Mi perfil de <span>Steam</span>',
+    steamSub: 'Añádeme en Steam o consulta mi actividad reciente.',
+    footerText: '<strong>AIMARGTZ</strong> // Perfil de jugador CS2',
+    langSwitch: 'EN'
+  }
+};
+
+function setLanguage(lang) {
+  const translation = I18N[lang] || I18N.en;
+  document.getElementById('navHome').textContent = translation.navHome;
+  document.getElementById('navProfile').textContent = translation.navProfile;
+  document.getElementById('navStats').textContent = translation.navStats;
+  document.getElementById('navSetup').textContent = translation.navSetup;
+  document.getElementById('navSteam').textContent = translation.navSteam;
+  document.getElementById('heroCta').textContent = translation.heroCta;
+  updateSteamStatusText(currentSteamState === 'online');
+  document.getElementById('heroEyebrow').textContent = translation.heroEyebrow;
+  document.getElementById('heroBio').textContent = translation.heroBio;
+  document.getElementById('faceitLabel').textContent = translation.faceitLabel;
+  document.getElementById('faceitValue').textContent = translation.faceitValue;
+  document.getElementById('statsEyebrow').textContent = translation.statsEyebrow;
+  document.getElementById('statsTitle').innerHTML = translation.statsTitle;
+  document.getElementById('statsSub').innerHTML = translation.statsSub;
+  document.getElementById('setupEyebrow').textContent = translation.setupEyebrow;
+  document.getElementById('setupTitle').innerHTML = translation.setupTitle;
+  document.getElementById('setupSub').textContent = translation.setupSub;
+  document.getElementById('mapsTitle').textContent = translation.mapsTitle;
+  document.getElementById('setupPanelTitle').textContent = translation.setupPanelTitle;
+  document.getElementById('labelDpi').textContent = translation.labelDpi;
+  document.getElementById('labelSensitivity').textContent = translation.labelSensitivity;
+  document.getElementById('labelEdpi').textContent = translation.labelEdpi;
+  document.getElementById('labelResolution').textContent = translation.labelResolution;
+  document.getElementById('labelRefresh').textContent = translation.labelRefresh;
+  document.getElementById('labelZoom').textContent = translation.labelZoom;
+  document.getElementById('labelRawInput').textContent = translation.labelRawInput;
+  document.getElementById('valueRawInput').textContent = translation.valueRawInput;
+  document.getElementById('peripheralsTitle').textContent = translation.peripheralsTitle;
+  document.getElementById('labelMouse').textContent = translation.labelMouse;
+  document.getElementById('labelKeyboard').textContent = translation.labelKeyboard;
+  document.getElementById('labelHeadset').textContent = translation.labelHeadset;
+  document.getElementById('labelMonitor').textContent = translation.labelMonitor;
+  document.getElementById('labelPC').textContent = translation.labelPC;
+  document.getElementById('steamEyebrow').textContent = translation.steamEyebrow;
+  document.getElementById('steamTitle').innerHTML = translation.steamTitle;
+  document.getElementById('steamSub').textContent = translation.steamSub;
+  document.getElementById('footerText').innerHTML = translation.footerText;
+  document.getElementById('langSwitch').textContent = translation.langSwitch;
+  document.documentElement.lang = lang;
+}
+
+const langSwitch = document.getElementById('langSwitch');
+let currentLang = 'en';
+langSwitch.addEventListener('click', () => {
+  currentLang = currentLang === 'en' ? 'es' : 'en';
+  setLanguage(currentLang);
+});
+
+setLanguage('en');
+
+</script>
+</body>
+</html>
