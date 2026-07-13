@@ -1,25 +1,39 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="refresh" content="0; URL='Aimar.html'">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Redirecting...</title>
-    <meta name="robots" content="index,follow">
-  </head>
-  <body>
-    <p>Redirecting to the site... <a href="Aimar.html">Click here if not redirected</a>.</p>
-    <script>
-      // Fallback JS redirect in case meta refresh is blocked
-      if (location.pathname === '/' || location.pathname.toLowerCase().endsWith('index.html')) {
-        location.replace('Aimar.html');
-      }
-    </script>
-  </body>
-</html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://avatars.fastly.steamstatic.com https://wsrv.nl https://api.allorigins.win; connect-src https://api.allorigins.win https://steamcommunity.com; frame-ancestors 'none'; base-uri 'self'; form-action 'none';">
+<meta name="referrer" content="no-referrer">
+<title>AIMARGTZ // CS2 Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Orbitron:wght@700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   AIMARGTZ // CS2 PLAYER PORTFOLIO
+   Tokens, layout and components below.
+   ============================================ */
+
+:root{
+  --bg-0:#08090b;
+  --bg-1:#111318;
+  --bg-2:#181b21;
+  --panel:rgba(24,27,33,0.55);
+  --panel-border:rgba(255,255,255,0.07);
+  --line:rgba(255,255,255,0.08);
+  --ink-0:#f2f2f0;
+  --ink-1:#a9adb6;
+  --ink-2:#6b6f78;
+  --accent:#3b6fe0;
+  --accent-light:#6fa0ff;
+  --accent-deep:#15266b;
+  --accent-soft:#9fd0ff;
+  --radius:14px;
+  --maxw:1180px;
+  --ff-display:'Orbitron', sans-serif;
+  --ff-head:'Rajdhani', sans-serif;
+  --ff-body:'Inter', sans-serif;
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -1242,51 +1256,6 @@ const I18N = {
     footerText: '<strong>AIMARGTZ</strong> // Perfil de jugador CS2',
     langSwitch: 'EN'
   }
-  ,
-  it: {
-    navHome: 'Home',
-    navProfile: 'Profilo',
-    navStats: 'Statistiche',
-    navSetup: 'Impostazioni',
-    navSteam: 'Steam',
-    heroCta: 'Vedi su Steam',
-    heroStatusOnline: 'ONLINE',
-    heroStatusOffline: 'OFFLINE',
-    heroEyebrow: 'Portfolio di programmazione',
-    heroBio: 'Programmatore ed appassionato di CS2 che ha creato questa pagina perché si annoiava. Mi piace realizzare progetti web e tracciare dati di gioco come hobby.',
-    faceitLabel: 'FACEIT',
-    faceitValue: 'FACEIT 4 • 1000',
-    statsEyebrow: 'Prestazioni',
-    statsTitle: 'Statistiche del <span>giocatore</span>',
-    statsSub: 'Dati aggregati delle partite competitive da FACEIT e Premier. Statistiche complete verificate su <a href="https://csrep.gg/player/76561199279300867" target="_blank" rel="noopener noreferrer" style="color:var(--accent-light);font-weight:600;">csrep.gg ↗</a>',
-    setupEyebrow: 'Attrezzatura',
-    setupTitle: 'Configurazione del <span>giocatore</span>',
-    setupSub: 'Impostazioni, periferiche e hardware utilizzati durante il gioco a CS2.',
-    matchesEyebrow: 'Cronologia partite',
-    matchesTitle: 'Ultime <span>partite</span>',
-    matchesSub: 'Le ultime partite competitive di CS2 in stile Faceit, aggiornate automaticamente quando possibile.',
-    mapsTitle: 'Mappe preferite',
-    setupPanelTitle: 'Sensibilità e schermo',
-    labelDpi: 'DPI',
-    labelSensitivity: 'Sensibilità',
-    labelEdpi: 'eDPI',
-    labelResolution: 'Risoluzione',
-    labelRefresh: 'Frequenza del monitor',
-    labelZoom: 'Sensibilità dello zoom',
-    labelRawInput: 'Raw Input',
-    valueRawInput: 'Attivato',
-    peripheralsTitle: 'Periferiche e PC',
-    labelMouse: 'Mouse',
-    labelKeyboard: 'Tastiera',
-    labelHeadset: 'Cuffie',
-    labelMonitor: 'Monitor',
-    labelPC: 'PC',
-    steamEyebrow: 'Seguimi',
-    steamTitle: 'Il mio profilo <span>Steam</span>',
-    steamSub: "Aggiungimi su Steam o controlla la mia attività recente.",
-    footerText: '<strong>AIMARGTZ</strong> // Profilo giocatore CS2',
-    langSwitch: 'IT'
-  }
 };
 
 function setLanguage(lang) {
@@ -1334,10 +1303,8 @@ function setLanguage(lang) {
 
 const langSwitch = document.getElementById('langSwitch');
 let currentLang = 'en';
-const LANGS = ['en','es','it'];
 langSwitch.addEventListener('click', () => {
-  const idx = LANGS.indexOf(currentLang);
-  currentLang = LANGS[(idx + 1) % LANGS.length];
+  currentLang = currentLang === 'en' ? 'es' : 'en';
   setLanguage(currentLang);
 });
 
@@ -1345,17 +1312,4 @@ setLanguage('en');
 
 </script>
 </body>
-=======
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="refresh" content="0; URL='Aimar.html'">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Redirecting...</title>
-  </head>
-  <body>
-    <p>Redirecting to the site... <a href="Aimar.html">Click here if not redirected</a>.</p>
-  </body>
->>>>>>> 7c1c90c (Add index.html and Italian translation; update language switch)
 </html>
