@@ -872,6 +872,12 @@ const MATCH_HISTORY = [
 
 function renderMatchHistory() {
   const list = document.getElementById('matchList');
+  if (!list) return;
+  // preserve visible region: compute ratio to restore approx. same view after re-render
+  const prevScrollLeft = list.scrollLeft || 0;
+  const prevScrollWidth = list.scrollWidth || 1;
+  const prevViewportRatio = prevScrollLeft / Math.max(prevScrollWidth - list.clientWidth, 1);
+
   list.innerHTML = MATCH_HISTORY.map(match => `
     <div class="match-card hud">
       <div class="match-summary">
@@ -883,7 +889,7 @@ function renderMatchHistory() {
         <span>${match.map}</span>
         <span>${match.skill === 'Unranked' ? 'Unranked' : `SL ${match.skill}`}</span>
         ${match.elo ? `<span>ELO ${match.elo}</span>` : ''}
-        <span class="match-source">${match.source}</span>
+        <span class="match-source">${match.source || ''}</span>
       </div>
       <div class="match-detail">
         <span>${match.kd} K/D</span>
@@ -891,6 +897,16 @@ function renderMatchHistory() {
       </div>
     </div>
   `).join('');
+
+  // Restore approximate scroll position (use ratio to handle different widths)
+  requestAnimationFrame(() => {
+    const newScrollWidth = list.scrollWidth || 1;
+    const maxScroll = Math.max(newScrollWidth - list.clientWidth, 1);
+    const targetLeft = Math.round(prevViewportRatio * maxScroll);
+    list.scrollLeft = Math.min(maxScroll, Math.max(0, targetLeft));
+    // rebind observers and pointer handlers
+    observeMatchCards();
+  });
 }
 
 renderMatchHistory();
@@ -905,41 +921,42 @@ function isScrollbarClick(event, element) {
   return event.clientY > rect.top + element.clientHeight;
 }
 
+// Improved drag-to-scroll with pointer capture and better coordinate math
 matchListEl.addEventListener('pointerdown', (event) => {
   if (isScrollbarClick(event, matchListEl)) return;
   isDragging = true;
-  startX = event.clientX - matchListEl.offsetLeft;
-  scrollLeft = matchListEl.scrollLeft;
   matchListEl.setPointerCapture(event.pointerId);
+  startX = event.clientX;
+  scrollLeft = matchListEl.scrollLeft;
   matchListEl.classList.add('dragging');
   event.preventDefault();
 });
 
 matchListEl.addEventListener('pointermove', (event) => {
   if (!isDragging) return;
-  const x = event.clientX - matchListEl.offsetLeft;
+  const x = event.clientX;
   const walk = (x - startX) * 1.3;
-  matchListEl.scrollLeft = scrollLeft - walk;
+  // use smooth delta application to avoid jumps on fast pointer changes
+  matchListEl.scrollLeft = Math.max(0, scrollLeft - walk);
 });
 
-matchListEl.addEventListener('pointerup', (event) => {
+function endDrag(event) {
   if (!isDragging) return;
   isDragging = false;
-  matchListEl.releasePointerCapture(event.pointerId);
+  try { matchListEl.releasePointerCapture(event.pointerId); } catch (e) {}
   matchListEl.classList.remove('dragging');
-});
+}
 
-matchListEl.addEventListener('pointercancel', () => {
-  if (!isDragging) return;
-  isDragging = false;
-  matchListEl.classList.remove('dragging');
-});
+matchListEl.addEventListener('pointerup', endDrag);
+matchListEl.addEventListener('pointercancel', endDrag);
+matchListEl.addEventListener('pointerleave', endDrag);
 
-matchListEl.addEventListener('pointerleave', () => {
-  if (!isDragging) return;
-  isDragging = false;
-  matchListEl.classList.remove('dragging');
-});
+// Allow vertical wheel to scroll horizontally over the match list for better UX
+matchListEl.addEventListener('wheel', (e) => {
+  if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return; // let horizontal wheel pass
+  e.preventDefault();
+  matchListEl.scrollLeft += e.deltaY;
+}, { passive: false });
 
 const cardObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -1113,9 +1130,13 @@ async function loadSteamAvatar() {
 }
 loadSteamAvatar();
 loadFaceitStatus();
-// Vuelve a comprobar cada 10 minutos para reflejar cambios de foto y nivel Faceit sin recargar la página
-setInterval(loadSteamAvatar, 10 * 60 * 1000);
-setInterval(loadFaceitStatus, 10 * 60 * 1000);
+// Vuelve a comprobar cada 5 minutos para reflejar cambios de foto, nivel Faceit y match history sin recargar
+setInterval(loadSteamAvatar, 5 * 60 * 1000);
+setInterval(loadFaceitStatus, 5 * 60 * 1000);
+setInterval(() => {
+  // re-render match history in case data source updated (preserves scroll position)
+  renderMatchHistory();
+}, 5 * 60 * 1000);
 window.addEventListener('load', () => document.body.classList.add('page-loaded'));
 
 /* ============ MOBILE NAV TOGGLE ============ */
