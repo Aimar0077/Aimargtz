@@ -950,11 +950,30 @@ function getMatchIndex() {
   return nearestIndex;
 }
 
+function animateScrollLeft(element, targetLeft, duration = 550) {
+  const startLeft = element.scrollLeft;
+  const delta = targetLeft - startLeft;
+  if (!delta) return;
+  let startTime = null;
+  const ease = (t) => t < 0.5
+    ? 4 * t * t * t
+    : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+  function step(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const elapsed = timestamp - startTime;
+    const progress = Math.min(1, elapsed / duration);
+    element.scrollLeft = Math.round(startLeft + delta * ease(progress));
+    if (elapsed < duration) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
 function snapMatchList() {
   const cards = Array.from(matchListEl.querySelectorAll('.match-card'));
   if (!cards.length) return;
   const currentIndex = getMatchIndex();
-  matchListEl.scrollTo({ left: cards[currentIndex].offsetLeft, behavior: 'smooth' });
+  animateScrollLeft(matchListEl, cards[currentIndex].offsetLeft);
 }
 
 function scrollMatchList(deltaIndex) {
@@ -962,7 +981,7 @@ function scrollMatchList(deltaIndex) {
   if (!cards.length) return;
   const currentIndex = getMatchIndex();
   const targetIndex = Math.max(0, Math.min(cards.length - 1, currentIndex + deltaIndex));
-  matchListEl.scrollTo({ left: cards[targetIndex].offsetLeft, behavior: 'smooth' });
+  animateScrollLeft(matchListEl, cards[targetIndex].offsetLeft);
 }
 
 const prevMatchBtn = document.querySelector('.match-nav-prev');
