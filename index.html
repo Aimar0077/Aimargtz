@@ -930,6 +930,11 @@ matchListEl.addEventListener('pointerdown', (event) => {
   scrollLeft = matchListEl.scrollLeft;
   matchListEl.classList.add('dragging');
   event.preventDefault();
+  // temporarily disable scroll snapping and smooth behavior while dragging
+  matchListEl.dataset._oldSnap = matchListEl.style.scrollSnapType || '';
+  matchListEl.dataset._oldBehavior = matchListEl.style.scrollBehavior || '';
+  matchListEl.style.scrollSnapType = 'none';
+  matchListEl.style.scrollBehavior = 'auto';
 });
 
 matchListEl.addEventListener('pointermove', (event) => {
@@ -945,6 +950,15 @@ function endDrag(event) {
   isDragging = false;
   try { matchListEl.releasePointerCapture(event.pointerId); } catch (e) {}
   matchListEl.classList.remove('dragging');
+  // restore scroll snapping and smooth behavior
+  if (matchListEl.dataset._oldSnap !== undefined) {
+    matchListEl.style.scrollSnapType = matchListEl.dataset._oldSnap;
+    delete matchListEl.dataset._oldSnap;
+  }
+  if (matchListEl.dataset._oldBehavior !== undefined) {
+    matchListEl.style.scrollBehavior = matchListEl.dataset._oldBehavior;
+    delete matchListEl.dataset._oldBehavior;
+  }
 }
 
 matchListEl.addEventListener('pointerup', endDrag);
